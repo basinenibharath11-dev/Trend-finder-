@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#111827" />
+<title>Trend Finder — Fashion, First</title>
+<style>
+:root{--ink:#111827;--muted:#667085;--bg:#f6f7fb;--card:#fff;--line:#e8eaf0;--accent:#7357ff;--accent2:#ff6b6b;--green:#16865b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}.topbar{background:#111827;color:#fff;padding:12px 5%;display:flex;align-items:center;justify-content:space-between;font-size:13px}.topbar span{opacity:.82}.topbar strong{color:#c7bcff}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}.nav{max-width:1200px;margin:auto;padding:17px 22px;display:flex;align-items:center;gap:24px}.logo{font-size:22px;font-weight:900;letter-spacing:-.8px;white-space:nowrap}.logo b{color:var(--accent)}.search{flex:1;display:flex;background:#f3f4f8;border:1px solid #eceef4;border-radius:12px;overflow:hidden}.search input{border:0;background:transparent;padding:12px 14px;outline:0;width:100%;min-width:60px}.search button{border:0;background:var(--accent);color:white;padding:0 17px;font-weight:700}.nav-actions{display:flex;gap:10px}.pill{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;font-weight:700;color:var(--ink)}.pill:hover{border-color:var(--accent)}
+main{max-width:1200px;margin:auto;padding:24px 22px 60px}.hero{border-radius:24px;background:linear-gradient(115deg,#21154b,#4933a5 55%,#a06cff);color:white;padding:38px;display:grid;grid-template-columns:1.4fr .8fr;gap:20px;align-items:center;overflow:hidden;position:relative}.eyebrow{font-size:12px;letter-spacing:1.8px;text-transform:uppercase;font-weight:800;color:#d9d0ff}.hero h1{font-size:clamp(32px,4vw,51px);line-height:1.04;margin:12px 0;letter-spacing:-1.8px}.hero p{color:#e6e1ff;max-width:520px;line-height:1.65;margin-bottom:22px}.primary{border:0;border-radius:11px;background:#fff;color:#37248e;font-weight:800;padding:13px 17px}.hero-art{min-height:190px;display:flex;align-items:center;justify-content:center;font-size:112px;filter:drop-shadow(0 20px 18px #120b3d66);transform:rotate(-8deg)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 26px}.stat{background:#fff;border:1px solid var(--line);border-radius:15px;padding:16px 18px}.stat strong{display:block;font-size:19px}.stat small{color:var(--muted)}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:26px 0 14px}.section-head h2{margin:0;font-size:25px;letter-spacing:-.6px}.section-head p{margin:5px 0 0;color:var(--muted);font-size:14px}.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}.filter{border:1px solid var(--line);background:white;color:#475467;border-radius:999px;padding:9px 14px;font-weight:700;font-size:13px}.filter.active{background:#21154b;border-color:#21154b;color:#fff}
+.notice{display:none;padding:12px 15px;border-radius:12px;background:#eaf8f1;color:#126342;margin:12px 0;font-size:14px}.notice.show{display:block}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.product{background:var(--card);border:1px solid var(--line);border-radius:17px;overflow:hidden;transition:.2s;position:relative}.product:hover{transform:translateY(-3px);box-shadow:0 12px 25px #1920400d}.visual{height:175px;display:flex;align-items:center;justify-content:center;font-size:76px;position:relative;background:linear-gradient(135deg,#f0edff,#f8f4ff)}.visual.shoe{background:linear-gradient(135deg,#e7f4ff,#f5faff)}.visual.cloth{background:linear-gradient(135deg,#fff0e8,#fff8f3)}.visual.accessory{background:linear-gradient(135deg,#e8f7ee,#f5fff8)}.badge{position:absolute;left:11px;top:11px;border-radius:7px;background:#fff;padding:5px 8px;font-size:10px;font-weight:900;color:#4933a5}.heart{position:absolute;right:10px;top:9px;width:32px;height:32px;border:0;border-radius:50%;background:#ffffffd9;font-size:18px}.heart.saved{color:#f04467}.product-body{padding:14px}.brand{font-size:10px;font-weight:900;letter-spacing:1.2px;color:#8b5cf6;text-transform:uppercase}.product h3{font-size:14px;margin:6px 0 9px;line-height:1.35;min-height:38px}.prices{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.price{font-size:18px;font-weight:900}.old{font-size:12px;color:#98a2b3;text-decoration:line-through}.discount{font-size:11px;color:var(--green);font-weight:800}.source{font-size:11px;color:var(--muted);margin-top:9px;display:flex;justify-content:space-between;align-items:center}.card-actions{display:flex;gap:7px;margin-top:12px}.smallbtn{border:1px solid var(--line);border-radius:9px;padding:9px 10px;background:#fff;font-size:12px;font-weight:800;flex:1}.smallbtn.buy{background:var(--ink);color:#fff;border-color:var(--ink)}
+.empty{display:none;text-align:center;background:#fff;border:1px dashed #cfd3df;padding:35px;border-radius:16px;color:var(--muted)}
+.alert-panel{margin-top:30px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;display:grid;grid-template-columns:1fr 1.2fr;gap:22px;align-items:center}.alert-panel h2{margin:0 0 8px}.alert-panel p{color:var(--muted);line-height:1.6;margin:0}.alert-form{display:flex;gap:8px;flex-wrap:wrap}.alert-form input,.alert-form select{flex:1;min-width:130px;border:1px solid var(--line);border-radius:10px;padding:11px;background:#fff}.alert-form button{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:11px 15px;font-weight:800}
+footer{background:#111827;color:#d0d5dd;padding:28px 5%;text-align:center;font-size:13px}footer strong{color:#fff}.footnote{font-size:12px;color:#98a2b3;margin-top:13px;line-height:1.5}
+.modal-backdrop{display:none;position:fixed;inset:0;background:#10182899;z-index:20;align-items:center;justify-content:center;padding:20px}.modal-backdrop.open{display:flex}.modal{max-width:440px;width:100%;background:#fff;border-radius:20px;padding:24px;box-shadow:0 25px 70px #0003}.modal h2{margin-top:0}.modal p{color:var(--muted);line-height:1.6}.modal button{border:0;border-radius:10px;padding:11px 15px;font-weight:800;background:var(--accent);color:white}.modal .close{background:#f2f4f7;color:#344054;margin-left:8px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{grid-template-columns:1fr .55fr;padding:28px}.hero-art{font-size:82px}}
+@media(max-width:650px){.topbar{padding:10px 16px}.topbar span{max-width:65%;text-align:right}.nav{padding:13px 15px;gap:10px;flex-wrap:wrap}.logo{font-size:20px}.search{order:3;flex-basis:100%}.nav-actions{margin-left:auto}.nav-actions .pill{padding:8px 9px;font-size:12px}main{padding:17px 14px 40px}.hero{padding:24px 21px;grid-template-columns:1fr}.hero h1{font-size:36px}.hero-art{display:none}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:16px}.stat small{font-size:11px}.section-head h2{font-size:22px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.visual{height:135px;font-size:60px}.product-body{padding:11px}.product h3{font-size:13px}.price{font-size:16px}.card-actions{gap:5px}.smallbtn{font-size:11px;padding:8px 5px}.alert-panel{grid-template-columns:1fr;padding:18px}.alert-form{display:grid;grid-template-columns:1fr}.alert-form input,.alert-form select{width:100%}}
+</style>
+</head>
+<body>
+<div class="topbar"><div>✨ <strong>Find your next favourite</strong></div><span>Fashion alerts, all in one place</span></div>
+<header><div class="nav">
+  <div class="logo">TREND <b>FINDER</b></div>
+  <div class="search"><input id="searchInput" type="search" placeholder="Search shoes, shirts, brands..." aria-label="Search products"><button id="searchBtn">Search</button></div>
+  <div class="nav-actions"><button class="pill" id="alertsBtn">🔔 Alerts <span id="alertCount">0</span></button><button class="pill" id="wishlistBtn">♡ Saved <span id="savedCount">0</span></button></div>
+</div></header>
+<main>
+  <section class="hero">
+    <div><div class="eyebrow">Your personal style radar</div><h1>Good style.<br>Great finds.</h1><p>Discover fresh fashion, keep an eye on prices, and collect the deals you love — across your favourite shopping platforms.</p><button class="primary" id="exploreBtn">Explore products&nbsp; →</button></div>
+    <div class="hero-art" aria-hidden="true">👟</div>
+  </section>
+  <div class="stats">
+    <div class="stat"><strong>👟 Shoes & more</strong><small>Footwear, clothes and accessories</small></div>
+    <div class="stat"><strong>💸 Price watch</strong><small>Spot sample price drops</small></div>
+    <div class="stat"><strong>🔔 Personal alerts</strong><small>Choose what you want to track</small></div>
+  </div>
+  <div class="section-head"><div><h2 id="productHeading">Trending picks</h2><p>Explore demo products and try the filters.</p></div><select id="sortSelect" class="pill" aria-label="Sort products"><option value="featured">Featured</option><option value="low">Price: low to high</option><option value="discount">Biggest discount</option></select></div>
+  <div class="filters" id="filters">
+    <button class="filter active" data-category="All">All products</button><button class="filter" data-category="Shoes">Shoes</button><button class="filter" data-category="Clothing">Clothing</button><button class="filter" data-category="Footwear">Other footwear</button><button class="filter" data-category="Accessories">Accessories</button><button class="filter" data-category="Price Drops">Price drops</button>
+  </div>
+  <div class="notice" id="notice" role="status"></div>
+  <div class="grid" id="productGrid"></div>
+  <div class="empty" id="emptyState">No products match your search. Try another word or category.</div>
+  <section class="alert-panel" id="alertPanel">
+    <div><h2>🔔 Set up your style alerts</h2><p>Choose a category and alert type. This demo saves your preferences in this browser. Live alerts require an approved product data feed/API and a notification service.</p></div>
+    <form class="alert-form" id="alertForm"><select id="alertCategory"><option>All fashion</option><option>Shoes</option><option>Clothing</option><option>Footwear</option><option>Accessories</option></select><select id="alertType"><option>New products</option><option>Price drops</option><option>Special offers</option><option>All alerts</option></select><button type="submit">Save alert</button></form>
+  </section>
+  <p class="footnote">Prototype notice: products, prices, discounts and alert examples shown here are sample data only. This website is not connected to Flipkart, Meesho, Myntra or AJIO yet. Do not treat sample prices as live offers.</p>
+</main>
+<footer><strong>TREND FINDER</strong> — Find your next favourite.<br><span>Made as a starter prototype for a mobile-friendly fashion discovery website.</span></footer>
+<div class="modal-backdrop" id="modalBackdrop"><div class="modal"><h2 id="modalTitle">Product details</h2><p id="modalText"></p><button id="modalPrimary">Okay</button><button class="close" id="modalClose">Close</button></div></div>
+<script>
+const products = [
+ {id:1,name:"Street Runner Sneakers",brand:"Urban Step",category:"Shoes",emoji:"👟",type:"shoe",price:2499,old:3499,discount:29,store:"Flipkart",tag:"PRICE DROP",link:"https://www.flipkart.com/"},
+ {id:2,name:"Everyday Cotton T-Shirt",brand:"Basic Club",category:"Clothing",emoji:"👕",type:"cloth",price:499,old:699,discount:29,store:"Meesho",tag:"POPULAR",link:"https://www.meesho.com/"},
+ {id:3,name:"Classic White Trainers",brand:"Runway Co.",category:"Shoes",emoji:"👟",type:"shoe",price:1899,old:2499,discount:24,store:"Myntra",tag:"NEW PICK",link:"https://www.myntra.com/"},
+ {id:4,name:"Relaxed Fit Denim",brand:"Blue Lane",category:"Clothing",emoji:"👖",type:"cloth",price:1199,old:1599,discount:25,store:"AJIO",tag:"TRENDING",link:"https://www.ajio.com/"},
+ {id:5,name:"Comfort Slide Sandals",brand:"Daily Move",category:"Footwear",emoji:"🩴",type:"shoe",price:599,old:799,discount:25,store:"Flipkart",tag:"PRICE DROP",link:"https://www.flipkart.com/"},
+ {id:6,name:"Minimal Crossbody Bag",brand:"Mode Studio",category:"Accessories",emoji:"👜",type:"accessory",price:899,old:1199,discount:25,store:"Myntra",tag:"NEW PICK",link:"https://www.myntra.com/"},
+ {id:7,name:"Lightweight Running Shoes",brand:"Pace Works",category:"Shoes",emoji:"👟",type:"shoe",price:2799,old:3299,discount:15,store:"AJIO",tag:"OFFER",link:"https://www.ajio.com/"},
+ {id:8,name:"Oversized Hoodie",brand:"North Street",category:"Clothing",emoji:"🧥",type:"cloth",price:999,old:1499,discount:33,store:"Meesho",tag:"HOT DEAL",link:"https://www.meesho.com/"},
+ {id:9,name:"Sporty Everyday Cap",brand:"Field Day",category:"Accessories",emoji:"🧢",type:"accessory",price:349,old:499,discount:30,store:"Flipkart",tag:"OFFER",link:"https://www.flipkart.com/"},
+ {id:10,name:"Classic Loafer Shoes",brand:"Mode Walk",category:"Footwear",emoji:"👞",type:"shoe",price:1599,old:1999,discount:20,store:"AJIO",tag:"POPULAR",link:"https://www.ajio.com/"},
+ {id:11,name:"Everyday Casual Shirt",brand:"Thread Theory",category:"Clothing",emoji:"👔",type:"cloth",price:799,old:1099,discount:27,store:"Myntra",tag:"NEW PICK",link:"https://www.myntra.com/"},
+ {id:12,name:"Classic Wrist Watch",brand:"Time Works",category:"Accessories",emoji:"⌚",type:"accessory",price:1299,old:1799,discount:28,store:"Flipkart",tag:"HOT DEAL",link:"https://www.flipkart.com/"}
+];
+let activeCategory="All", showSaved=false;
+let saved = new Set(JSON.parse(localStorage.getItem("tf_saved")||"[]"));
+let alerts = JSON.parse(localStorage.getItem("tf_alerts")||"[]");
+const $=id=>document.getElementById(id);
+function money(n){return "₹"+n.toLocaleString("en-IN")}
+function render(){
+ let q=$("searchInput").value.trim().toLowerCase();
+ let list=products.filter(p=>(activeCategory==="All" || (activeCategory==="Price Drops"?p.discount>=25:p.category===activeCategory)) &&
+ (!showSaved || saved.has(p.id)) && (!q || [p.name,p.brand,p.category,p.store].join(" ").toLowerCase().includes(q)));
+ const sort=$("sortSelect").value;
+ if(sort==="low")list.sort((a,b)=>a.price-b.price); if(sort==="discount")list.sort((a,b)=>b.discount-a.discount);
+ $("productGrid").innerHTML=list.map(p=>`<article class="product"><div class="visual ${p.type}"><span class="badge">${p.tag}</span><button class="heart ${saved.has(p.id)?"saved":""}" aria-label="Save ${p.name}" data-save="${p.id}">${saved.has(p.id)?"♥":"♡"}</button><span>${p.emoji}</span></div><div class="product-body"><div class="brand">${p.brand}</div><h3>${p.name}</h3><div class="prices"><span class="price">${money(p.price)}</span><span class="old">${money(p.old)}</span><span class="discount">${p.discount}% off</span></div><div class="source"><span>Sample listing</span><strong>${p.store}</strong></div><div class="card-actions"><button class="smallbtn" data-details="${p.id}">Details</button><button class="smallbtn buy" data-buy="${p.id}">Visit store ↗</button></div></div></article>`).join("");
+ $("emptyState").style.display=list.length?"none":"block";
+ $("savedCount").textContent=saved.size;
+ $("alertCount").textContent=alerts.length;
+ $("productHeading").textContent=showSaved?"Saved products":activeCategory==="All"?"Trending picks":activeCategory;
+}
+function notify(msg){$("notice").textContent=msg;$("notice").classList.add("show");setTimeout(()=>$("notice").classList.remove("show"),4500)}
+function modal(title,text,primary="Okay",action=null){$("modalTitle").textContent=title;$("modalText").textContent=text;$("modalPrimary").textContent=primary;$("modalBackdrop").classList.add("open");$("modalPrimary").onclick=()=>{ $("modalBackdrop").classList.remove("open"); if(action)action();};}
+$("filters").addEventListener("click",e=>{let b=e.target.closest("[data-category]");if(!b)return;activeCategory=b.dataset.category;showSaved=false;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()});
+$("productGrid").addEventListener("click",e=>{
+ let s=e.target.closest("[data-save]");if(s){let id=+s.dataset.save;saved.has(id)?saved.delete(id):saved.add(id);localStorage.setItem("tf_saved",JSON.stringify([...saved]));render();notify(saved.has(id)?"Added to your saved products.":"Removed from saved products.");return}
+ let d=e.target.closest("[data-details]");if(d){let p=products.find(x=>x.id===+d.dataset.details);modal(p.name,`${p.brand} • ${p.category}\nSample price: ${money(p.price)} (was ${money(p.old)}). The product and prices are demonstration data, not a live listing.`);return}
+ let b=e.target.closest("[data-buy]");if(b){let p=products.find(x=>x.id===+b.dataset.buy);modal("Open shopping platform",`This demo opens the ${p.store} homepage. Search for “${p.name}” there to find current availability. This prototype does not verify that exact item.`, "Continue",()=>window.open(p.link,"_blank","noopener"));return}
+});
+$("searchBtn").onclick=render;$("searchInput").addEventListener("input",render);$("sortSelect").onchange=render;
+$("exploreBtn").onclick=()=>$("productHeading").scrollIntoView({behavior:"smooth"});
+$("wishlistBtn").onclick=()=>{showSaved=!showSaved;activeCategory="All";document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x.dataset.category==="All"));render();$("productHeading").scrollIntoView({behavior:"smooth",block:"start"})};
+$("alertsBtn").onclick=()=>$("alertPanel").scrollIntoView({behavior:"smooth",block:"center"});
+$("alertForm").addEventListener("submit",e=>{e.preventDefault();let a={category:$("alertCategory").value,type:$("alertType").value};alerts.push(a);localStorage.setItem("tf_alerts",JSON.stringify(alerts));render();notify(`Alert preference saved: ${a.category} • ${a.type}. Live alerts are not connected in this demo.`);});
+$("modalClose").onclick=()=>$("modalBackdrop").classList.remove("open");$("modalBackdrop").addEventListener("click",e=>{if(e.target===$("modalBackdrop"))$("modalBackdrop").classList.remove("open")});
+render();
+</script>
+</body>
+</html>
